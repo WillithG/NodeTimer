@@ -1,0 +1,19 @@
+body {
+    text-align: center;
+    margin-top: 200px;
+}
+
+#stopwatch {
+    font-family: "Courier";
+    font-size: 100px;
+    font-weight: 500;
+}
+
+button {
+    width: 100px;
+    height: 35px;
+}
+
+button:hover {
+    cursor:pointer;
+}

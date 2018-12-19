@@ -1,0 +1,3 @@
+function StudyRecord(date, time) {
+
+}
