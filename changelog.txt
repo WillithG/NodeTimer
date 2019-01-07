@@ -5,3 +5,6 @@
     - Created basic functionality for pushing a new time.
   - added foundations for posting a new time from the client, this was done
   using basic js ajax techniques.
+
+  - Added Basic Functionality for the break button - will now submit the time
+  on the timer to the data base.
