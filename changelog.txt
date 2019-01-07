@@ -5,4 +5,3 @@
     - Created basic functionality for pushing a new time.
   - added foundations for posting a new time from the client, this was done
   using basic js ajax techniques.
-

@@ -67,5 +67,6 @@ var valid_time = function(time) {
 /* Private: Sanitize the input provided by the client
    inputs: 
    refer to this https://flaviocopes.com/express-sanitize-input/
+   https://expressjs.com/en/advanced/best-practice-security.html
 */
 post_time(1, 5000, 'study');
