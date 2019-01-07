@@ -4,7 +4,7 @@ var con =  mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'timesdb'
+    database: 'studystopwatch'
 });
 
 /* Private: wrapper function for executing an SQL query, and outputting a success message.
@@ -22,13 +22,50 @@ var execute_query = function(query, succ_msg) {
   });
 }
 
+
 /*
     Public: used to submit times to push a new study time to the database
     inputs:
       id :: string; name of user to associate the time with
       time :: int; the time in number of milliseconds
+      type :: string; the type of time to be pushed, either 'break' or 'study'
 */
+var post_time = function(id, time, type) {
+    // validate the input
+    var id_valid = true; //valid_userid(id);
+    var time_valid = valid_time(time);
+    var type_valid = type == 'break' || type == 'study';
+    // execute query
+    query = `
+    INSERT INTO times (userid, timeofperiod, dateofperiod, typeofperiod)
+    VALUES (${id}, ${time}, CURDATE(), '${type}');
+    `;
+    execute_query(query, `time ${id}, ${time} inserted`);
+}
+
+
+/*
+    Returns true if passed user id is a valid id
+    id :: int; the id to be checked
+    Returns: Bool
+*/
+var valid_userid = function(id) {
+    // TODO complete 
+    return true;
+}
+
+/*
+    Returns true if passed time is valid
+    time :: int; time to be validated
+    Returns Bool
+*/
+var valid_time = function(time) {
+    // TODO complete
+    return true;
+}
 
 /* Private: Sanitize the input provided by the client
    inputs: 
+   refer to this https://flaviocopes.com/express-sanitize-input/
 */
+post_time(1, 5000, 'study');

@@ -13,11 +13,13 @@ app.get('/', function(req, res) {
 })
 
 // client sends lapped study time, send this time to the databas
-// TODO begin this function:
+// TODO begin ths function:
 // 1) create database node files, 
 // 2) update this function
 // 3) update app js files to send a post request
-app.post('/post_time')
+app.post('/post_time', urlencodedParser, function(req, res) {
+    console.log(req.body.time);
+})
 
 // start the server listening
 var server = app.listen(PORT, function() {

@@ -77,6 +77,9 @@ function Stopwatch(opts) {
         document.title = 'Study Stopwatch';
     };
 
-    
     this.laps = function() {};
+
+    this.getTimeFormatted = function() {
+        return timeFormatter(time);
+    }
 }
