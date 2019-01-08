@@ -15,3 +15,13 @@
   - Added submit checkbox - when checked time will be submitted on reset.
   - added keyboard shortcuts: spacebar: start/stop, enter: reset, s: toggle
   submit checkbox
+
+  - LEARNED SO MUCH ABOUT USING ASYNC FUNCTIONS, specifically: using callbacks
+  with db queries to return select results. FABULOUS =D 
+  - Added total time studied today widget
+
+  - BEFORE YOU CONTINUE, CLEAN UP YOUR FILES:
+  - DOCUMENT, YOU MONG
+  - SEPARATE UTIL FUNCTIONS INTO UTIL FILES, YOU CRETIN
+  - PUT FORMAL TESTS IN, nobhed
+

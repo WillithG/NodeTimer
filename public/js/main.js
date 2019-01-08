@@ -6,6 +6,29 @@ var resetBtn = document.getElementById('reset');
 var watch = new Stopwatch({
     timer: timer
 });
+// TODO CODE RED ALERT GET RID OF THIS HARDCODE
+var userid = 1;
+
+/*
+    On document load, request the values for the main page stats:
+        - Total time studied today
+*/
+window.onload = function() {
+    // request the total time studied today
+    var http = new XMLHttpRequest();
+    var url = '/get_time_today';
+    var params = `userid=${userid}`;
+    http.open('GET', url+'?'+params, true);
+    // update content of total time today to the result of the response.
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            var res = http.responseText;
+            var newText = res ? res : 0 // if undefined is returned, display 0 instead
+            document.getElementById('totalTodayTime').textContent = newText;
+        }
+    }
+    http.send(params);
+ };
 
 /*
     Following functions 4 are private and used to start and stop the stopwatch.
@@ -42,7 +65,6 @@ function onReset() {
     if(!watch.isOn && checkbox.checked) {
         var currTime = watch.getTimeFormatted();
         // TODO CODE RED HARD CODED USER ID (CHANGE THIS WHEN U STOP BEING LAZY)
-        var userid = 1;
         var time_type = get_time_type();
         var http = new XMLHttpRequest();
         var url = '/post_time';

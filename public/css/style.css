@@ -17,3 +17,7 @@ button {
 button:hover {
     cursor:pointer;
 }
+
+#totalToday {
+    float: right;
+}

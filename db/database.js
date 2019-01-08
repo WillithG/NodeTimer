@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 module.exports = {
-    post_time: post_time
+    post_time: post_time,
+    get_time_today: get_time_today
 };
 
 var con =  mysql.createConnection({
@@ -16,18 +17,20 @@ var con =  mysql.createConnection({
     query :: string; the query to be executed
     succ_msg :: string; the string to be output to console if the query is successful. 
 */
-// DOES NOT RETURN FROM WITHIN CON.QUERY
+// CHANGE THIS TO TAKE A CALLBACK FUNCTION RATHER THAN A SUCC_MSG
 var execute_query = function(query, succ_msg) {
-    con.query(query, function (err, result) {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        if (succ_msg) {
-            console.log(succ_msg);
+    con.query(query, function(err, result) {
+         if (err) {
+            console.log(err);
         }
-    }
-  });
+        else {
+            if (succ_msg) {
+                console.log(succ_msg);
+            }
+        }
+        console.log(result);
+        res = result;
+    });
 }
 
 
@@ -51,6 +54,24 @@ function post_time(id, time, type) {
     `;
     var succ = execute_query(query, `time ${id}, ${time} inserted`);
     return succ;
+}
+/*
+    query the database for the total time studied today for the passed user
+    inputs:
+        userid :: int; id of user to be queried
+        callback :: function(err, result); function to be called upon query completion.
+*/
+function get_time_today(userid, callback) {
+    query = `
+    SELECT timeofperiod
+    FROM times
+    WHERE dateofperiod=CURDATE();
+    `
+    var result = 'yeet';
+    con.query(query, function(err, res) {
+        if (err) {callback(err, null);}
+        else {callback(null, res);} 
+    })
 }
 
 /*

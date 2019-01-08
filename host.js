@@ -11,7 +11,29 @@ app.use(express.static(public_dir)); // allow client to access public resources
 // route index url to index.html
 app.get('/', function(req, res) {
     res.sendFile(public_dir + 'index.html');
-})
+});
+
+/*
+    Send total time studied for today, upon request
+*/
+app.get('/get_time_today', urlencodedParser, function(req, res) {
+    // validate the userid (may be invalid, because user does not input this)
+    if (!validate_userid(req.body.userid)) {
+        res.sendStatus(400);
+    }
+    function callback(err, result) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+        else {
+            var totalTime = total_today_JSON_to_formatted(result);
+            res.send(totalTime);
+            res.end();
+        }
+    }
+    db.get_time_today(req.body.userid, callback);
+});
 
 // client sends lapped study time, send this time to the databas
 // TODO begin ths function:
@@ -32,7 +54,9 @@ app.post('/post_time', urlencodedParser, function(req, res) {
     res.end();
 })
 
+// TODO MOVE THESE FUNCTIONS TO A TIME-UTILS FILE
 /*
+    TODO TEST THIS
     Convert the time as string into seconds. Passed time must be pre-validated
     inputs:
         input_time :: string; pre-validated string which represents the stopwatch time at submission
@@ -67,6 +91,16 @@ var convert_input_time_seconds = function(input_time) {
     }
     total_time = seconds + mins_to_sec * minutes + hours_to_sec * hours;
     return total_time;
+}
+
+// fookin test this
+// document this ya lazy bastard
+function total_today_JSON_to_formatted(JSON_res) {
+    var total_time = 0;
+    for (var key in JSON_res) {
+        total_time += JSON_res[key].timeofperiod;
+    }
+    return total_time.toString();
 }
 
 // TODO DOCUMENT, MOVE, AND UPDATE THESE VALIDATION FUNCTIONS:
