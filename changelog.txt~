@@ -8,10 +8,3 @@
 
   - Added Basic Functionality for the break button - will now submit the time
   on the timer to the data base.
-
-  08 Jan 2019:
-  - Removed the Break button, combined functionality into reset button and
-  submit checkbox.
-  - Added submit checkbox - when checked time will be submitted on reset.
-  - added keyboard shortcuts: spacebar: start/stop, enter: reset, s: toggle
-  submit checkbox

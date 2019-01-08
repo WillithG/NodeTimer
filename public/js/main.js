@@ -3,7 +3,6 @@ const hostUrl = 'localhost';
 var timer = document.getElementById('stopwatch');
 var toggleBtn = document.getElementById('toggle');
 var resetBtn = document.getElementById('reset');
-var breakBtn = document.getElementById('break');
 var watch = new Stopwatch({
     timer: timer
 });
@@ -21,23 +20,28 @@ function stop() {
     watch.stop();
 }
 
-toggleBtn.addEventListener('click', function() {
+// function to call when you want to toggle the stopwatch
+function startStop() {
     (!watch.isOn) ? start() : stop();
-});
+}
 
-// if the timer is stopped and the reset button has been pressed, reset the timer.
-resetBtn.addEventListener('click', function() {
-    if (!watch.isOn) { 
-        watch.reset();
-    }
-})
+toggleBtn.addEventListener('click', startStop);
 
-breakBtn.addEventListener('click', function() {
+/* 
+    Procedure when the reset button is hit. Reset the timer, if it has been stopped. 
+    If the submit button has been checked then submit the time to the user's record.
+*/
+function onReset() {
     // if the watch is not on
     // then send a post request to submit_time with the formatted time.
-    if(!watch.isOn) {
+    var checkbox = document.getElementById('submitCheckBox');
+    // todo remove the double check
+    if (!watch.isOn) {
+        watch.reset();
+    }
+    if(!watch.isOn && checkbox.checked) {
         var currTime = watch.getTimeFormatted();
-        // CODE RED HARD CODED USER ID (CHANGE THIS WHEN U STOP BEING LAZY)
+        // TODO CODE RED HARD CODED USER ID (CHANGE THIS WHEN U STOP BEING LAZY)
         var userid = 1;
         var time_type = get_time_type();
         var http = new XMLHttpRequest();
@@ -56,7 +60,25 @@ breakBtn.addEventListener('click', function() {
         }
         http.send(params);
     }
-});
+};
+
+// if the timer is stopped and the reset button has been pressed, reset the timer.
+resetBtn.addEventListener('click', onReset);
+
+// bind the spacebar to start and stop the timer
+document.addEventListener('keydown', function(e) {
+    if (e.keyCode == 32) { 
+        // space
+        startStop();
+    } else if (e.keyCode == 13) {
+        // enter
+        onReset();
+    } else if (e.keyCode == 83) {
+        // s key
+        var submitCheckBox = document.getElementById('submitCheckBox');
+        submitCheckBox.checked = !submitCheckBox.checked;
+    }
+})
 
 /*
     Method which returns the current timer type:
