@@ -72,7 +72,7 @@ function Stopwatch(opts) {
 
     this.reset = function() {
         time = 0;
-        timer.textContent = '00 : 00 : 00';
+        timer.textContent = '00 : 00 . 000';
         // TODO get rid of hard-code
         document.title = 'Study Stopwatch';
     };

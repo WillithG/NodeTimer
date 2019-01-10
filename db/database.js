@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var input_utils = require('./../utils/validation_util.js');
 module.exports = {
     post_time: post_time,
     get_time_today: get_time_today
@@ -28,8 +29,6 @@ var execute_query = function(query, succ_msg) {
                 console.log(succ_msg);
             }
         }
-        console.log(result);
-        res = result;
     });
 }
 
@@ -44,8 +43,8 @@ var execute_query = function(query, succ_msg) {
 */
 function post_time(id, time, type) {
     // validate the input
-    var id_valid = valid_userid(id);
-    var time_valid = valid_time(time);
+    var id_valid = input_utils.validate_userid(id);
+    var time_valid = input_utils.validate_time(time);
     var type_valid = type == 'break' || type == 'study';
     // execute query
     query = `
@@ -74,25 +73,6 @@ function get_time_today(userid, callback) {
     })
 }
 
-/*
-    Returns true if passed user id is a valid id
-    id :: int; the id to be checked
-    Returns: Bool
-*/
-valid_userid = function(id) {
-    // TODO complete 
-    return true;
-}
-
-/*
-    Returns true if passed time is valid
-    time :: int; time to be validated
-    Returns Bool
-*/
-valid_time = function(time) {
-    // TODO complete
-    return true;
-}
 
 /* Private: Sanitize the input provided by the client
    inputs:  

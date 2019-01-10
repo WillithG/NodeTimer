@@ -14,6 +14,13 @@ var userid = 1;
         - Total time studied today
 */
 window.onload = function() {
+    get_update_total_time_today();
+ };
+
+ /**
+  * Requests the total time studied today for the current user. If a response is recieved, the total time today widget is updated.
+  */
+function get_update_total_time_today() {
     // request the total time studied today
     var http = new XMLHttpRequest();
     var url = '/get_time_today';
@@ -28,7 +35,7 @@ window.onload = function() {
         }
     }
     http.send(params);
- };
+}
 
 /*
     Following functions 4 are private and used to start and stop the stopwatch.
@@ -59,12 +66,8 @@ function onReset() {
     // then send a post request to submit_time with the formatted time.
     var checkbox = document.getElementById('submitCheckBox');
     // todo remove the double check
-    if (!watch.isOn) {
-        watch.reset();
-    }
     if(!watch.isOn && checkbox.checked) {
         var currTime = watch.getTimeFormatted();
-        // TODO CODE RED HARD CODED USER ID (CHANGE THIS WHEN U STOP BEING LAZY)
         var time_type = get_time_type();
         var http = new XMLHttpRequest();
         var url = '/post_time';
@@ -73,14 +76,16 @@ function onReset() {
         http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
-                // TODO change this to update the calendar object 
-                // also update state of the break button
-                alert(http.responseText);
+                // if posted successfully then update the total time today widget.
+                get_update_total_time_today();
             } else if (http.readyState == 4 && http.status == 400) {
                 alert(http.status);
             }
         }
         http.send(params);
+    }
+    if (!watch.isOn) {
+        watch.reset();
     }
 };
 

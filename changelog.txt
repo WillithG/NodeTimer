@@ -25,3 +25,8 @@
   - SEPARATE UTIL FUNCTIONS INTO UTIL FILES, YOU CRETIN
   - PUT FORMAL TESTS IN, nobhed
 
+10 Jan 2019:
+  - Created utility directory, time utility file, and user input validation
+  utility file. Moved the appropriate methods into the correct utility file
+  - updated the time studied today widget to automatically update on
+  submission.
