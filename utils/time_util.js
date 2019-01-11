@@ -10,7 +10,7 @@ module.exports = {
 
 /**
  * Converts string value of the client timer to number of seconds.
- *  Returns int; number of seconds passed by the timer.
+ *  Returns int; number of seconds passed by the timer. As int.
  * @param {string} input_time 
  */
 // TEST THIS
@@ -38,7 +38,7 @@ function convert_input_time_seconds(input_time) {
     } else if (is_no_ms_time) {
         // eg. '123 : 45 : 67' => ["123", ":", "45", ":", "67"]
         hours = parseInt(split_time[0], 10);
-        minutes = parseInt(split_times[2], 10);
+        minutes = parseInt(split_time[2], 10);
         seconds = parseInt(split_time[4], 10);
     }
     total_time = seconds + mins_to_sec * minutes + hours_to_sec * hours;
@@ -58,5 +58,9 @@ function total_today_JSON_to_formatted(JSON_res) {
     }
     // once the total number of seconds has been acquired, convert to the appropriate form
 
-    return total_time.toString();
+    if (total_time == 0) {
+        return 'Fuk all..';
+    } else {
+        return total_time.toString() + ' seconds';
+    }
 }

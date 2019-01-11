@@ -30,3 +30,10 @@
   utility file. Moved the appropriate methods into the correct utility file
   - updated the time studied today widget to automatically update on
   submission.
+
+11 Jan 2019:
+  - Created test directory, set up mocha
+  - Wrote tests for currently implmented time utility functions
+  - Tests not yet all passing (complete implementation of converting from JSON
+  to formatted time)
+

@@ -16,6 +16,10 @@ app.get('/', function(req, res) {
     res.sendFile(public_dir + 'index.html');
 });
 
+app.get('/chart', function(req, res) {
+    res.sendFile(public_dir + 'chart.html');
+});
+
 /*
     Send total time studied for today for the passed user, upon request
 */

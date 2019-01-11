@@ -1,0 +1,37 @@
+{
+  "name": "study_stopwatch",
+  "version": "1.0.0",
+  "description": "A simple stopwatch designed to be used to track study time. Contains built in analytical tools to investigate study patterns",
+  "main": "host.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha \"./tests/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WillithG/StudyTimer.git"
+  },
+  "keywords": [
+    "stopwatch",
+    "node",
+    "node.js",
+    "web",
+    "app"
+  ],
+  "author": "WillithG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WillithG/StudyTimer/issues"
+  },
+  "homepage": "https://github.com/WillithG/StudyTimer#readme"
+}
