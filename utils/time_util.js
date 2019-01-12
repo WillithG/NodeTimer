@@ -53,14 +53,30 @@ function convert_input_time_seconds(input_time) {
  */
 function total_today_JSON_to_formatted(JSON_res) {
     var total_time = 0;
+    var mins_to_sec = 60;
+    var hours_to_sec = 3600;
+    var hours_to_mins = 60;
     for (var key in JSON_res) {
         total_time += JSON_res[key].timeofperiod;
     }
     // once the total number of seconds has been acquired, convert to the appropriate form
 
+    // TODO clean up this if else block a little bit 
     if (total_time == 0) {
         return 'Fuk all..';
-    } else {
+    } else if (total_time < mins_to_sec) {
         return total_time.toString() + ' seconds';
+    } else if (total_time < hours_to_sec) {
+        var num_mins = Math.floor(total_time / mins_to_sec);
+        var num_sec = total_time % 60;
+        return `${num_mins} minutes, ${num_sec} seconds`;
+    } else {
+        var num_hours = Math.floor(total_time / hours_to_sec);
+        var num_mins = Math.floor(total_time / mins_to_sec) % hours_to_mins;
+        if (num_mins > 0) {
+            return `${num_hours} hours, ${num_mins} minutes`;
+        } else {
+            return `${num_hours} hours`;
+        }   
     }
 }

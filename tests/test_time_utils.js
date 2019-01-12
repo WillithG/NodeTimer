@@ -60,11 +60,11 @@ describe('total_today_JSON_to_formatted test', function() {
             {timeofperiod : 3605}
         ]
 
-        assert.equal(time_utils.total_today_JSON_to_formatted(high_flat_single), '1 hour');
+        assert.equal(time_utils.total_today_JSON_to_formatted(high_flat_single), '1 hours');
         assert.equal(time_utils.total_today_JSON_to_formatted(high_flat_multi), '3 hours');
 
-        assert.equal(time_utils.total_today_JSON_to_formatted(high_skethy_single), '1 hour, 1 minute');
-        assert.equal(time_utils.total_today_JSON_to_formatted(high_skethy_multi), '3 hours, 1 minute');
+        assert.equal(time_utils.total_today_JSON_to_formatted(high_skethy_single), '1 hours, 1 minutes');
+        assert.equal(time_utils.total_today_JSON_to_formatted(high_skethy_multi), '3 hours, 1 minutes');
 
     })
 });

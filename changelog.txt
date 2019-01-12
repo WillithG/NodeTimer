@@ -37,3 +37,6 @@
   - Tests not yet all passing (complete implementation of converting from JSON
   to formatted time)
 
+12 Jan 2019:
+  - changed total_today_JSON_to_formatted to pass given tests
+
