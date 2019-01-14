@@ -12,25 +12,22 @@ var con =  mysql.createConnection({
     database: 'studystopwatch'
 });
 
-/* Private: wrapper function for executing an SQL query, and outputting a success message.
+/* Private: wrapper function for executing an SQL query;
     Throws error if the query is not sucessful.
    inputs:
     query :: string; the query to be executed
-    succ_msg :: string; the string to be output to console if the query is successful. 
+    callback :: function(error, result) the callback function after the query has been executed 
 */
-// CHANGE THIS TO TAKE A CALLBACK FUNCTION RATHER THAN A SUCC_MSG
-var execute_query = function(query, succ_msg) {
+var execute_query = function(query, callback) {
     con.query(query, function(err, result) {
          if (err) {
-            console.log(err);
+             callback(err, null);
         }
         else {
-            if (succ_msg) {
-                console.log(succ_msg);
-            }
+            callback(null, result);
         }
     });
-}
+};
 
 
 /*
@@ -71,6 +68,17 @@ function get_time_today(userid, callback) {
         if (err) {callback(err, null);}
         else {callback(null, res);} 
     })
+}
+
+
+/**
+ * Returns array of integers indicating the total time of each day for the last seven days
+ */
+function get_time_past_week(userid) {
+    // get JSON query objects every day for last 7 days.
+    // convert JSON objects to total time per day
+    var toReturn = [0,0,0,0,0,0,0];
+    
 }
 
 

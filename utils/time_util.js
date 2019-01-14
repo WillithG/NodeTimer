@@ -45,7 +45,6 @@ function convert_input_time_seconds(input_time) {
     return total_time;
 }
 
-// fookin test this
 /**
  * Converts result for total time today, from database, into a display-ready string form
  * Either returns the string form of the time in seconds, minutes + seconds or Minutes + hours

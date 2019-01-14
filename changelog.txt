@@ -43,5 +43,8 @@
 14 Jan 2019:
   - Added an sql file for creating the database tables, in case of another
   system change without backup.
-
-
+  - Created db test file
+  - wrote the tests for get_time_past_week
+  - created the get_time_past_week method -> gets the total time for each day
+  for the last 7 days. Will be passed to chart to show user's activity over
+  the last 7 days.
