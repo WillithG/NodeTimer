@@ -48,3 +48,5 @@
   - created the get_time_past_week method -> gets the total time for each day
   for the last 7 days. Will be passed to chart to show user's activity over
   the last 7 days.
+  - wrote body code for get_time_past_week
+

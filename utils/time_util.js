@@ -1,7 +1,9 @@
 module.exports = {
     convert_input_time_seconds : convert_input_time_seconds,
     
-    total_today_JSON_to_formatted : total_today_JSON_to_formatted
+    total_today_JSON_to_formatted : total_today_JSON_to_formatted,
+    
+    convert_JSON_to_seconds: convert_JSON_to_seconds
 }
 
 /*
@@ -46,20 +48,29 @@ function convert_input_time_seconds(input_time) {
 }
 
 /**
+ * 
+ * @param {JSON object sql result, MUST HAVE timeofperiod property} JSON_res 
+ */
+function convert_JSON_to_seconds(JSON_res) {
+    var total_time = 0;
+    for (var key in JSON_res) {
+        total_time += JSON_res[key].timeofperiod;
+    }
+    return total_time;
+}
+
+/**
  * Converts result for total time today, from database, into a display-ready string form
  * Either returns the string form of the time in seconds, minutes + seconds or Minutes + hours
  * @param {JSON} JSON_res 
  */
 function total_today_JSON_to_formatted(JSON_res) {
-    var total_time = 0;
+       // once the total number of seconds has been acquired, convert to the appropriate form
+    var total_time = convert_JSON_to_seconds(JSON_res);
     var mins_to_sec = 60;
     var hours_to_sec = 3600;
     var hours_to_mins = 60;
-    for (var key in JSON_res) {
-        total_time += JSON_res[key].timeofperiod;
-    }
-    // once the total number of seconds has been acquired, convert to the appropriate form
-
+ 
     // TODO clean up this if else block a little bit 
     if (total_time == 0) {
         return 'Fuk all..';

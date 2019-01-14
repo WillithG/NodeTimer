@@ -47,15 +47,18 @@ function remove_dummy() {
         DELETE FROM users
         WHERE userid=${DUMMY_ID};
     `;
+    con.query(q, function(err, result) {
+        if (err) {console.log(REMOVE_DUMMY_USERS + err);}
+    });
+}
+
+function remove_dummy_times() {
     const REMOVE_DUMMY_TIMES = `
         DELETE FROM times
         WHERE userid=${DUMMY_ID};
     `;
-
-    [REMOVE_DUMMY_TIMES, REMOVE_DUMMY_USERS].forEach(q => {
-        con.query(q, function(err, result) {
-            if (err) {console.log(q + err);}
-        });
+    con.query(q, function(err, result) {
+        if (err) {console.log(REMOVE_DUMMY_TIMES + err);}
     });
 }
 
@@ -72,12 +75,14 @@ function insert_time_dummy(time, date){
     });
 }
 
-
+// TODO TEST STUCK HERE 
+// TESTS FAILING
 describe('get_time_past_week tests', function() {
 
     it('zero tests', function() {
         construct_dummy();
-        assert.equal([0,0,0,0,0,0,0], get_time_past_week(DUMMY_ID));
+        assert.equal([0,0,0,0,0,0,0], db.get_time_past_week(DUMMY_ID));
+        remove_dummy_times();
         remove_dummy();
     });
 
@@ -85,14 +90,15 @@ describe('get_time_past_week tests', function() {
         construct_dummy();
 
         insert_time_dummy(7);
-        assert.equal([0,0,0,0,0,0,7], get_time_past_week(DUMMY_ID));
+        assert.equal([0,0,0,0,0,0,7], db.get_time_past_week(DUMMY_ID));
         
         for (var i=0; i<6; i++) {
-            insert_time_dummy((i+1), 'DATE_ADD(CURDATE(), INTERVAL -2 DAY)');
+            insert_time_dummy((6-i), `DATE_ADD(CURDATE(), INTERVAL -${i} DAY);`);
         }
 
-        assert.equal([1,2,3,4,5,6,7], get_time_past_week(DUMMY_ID));
+        assert.equal([1,2,3,4,5,6,7], db.get_time_past_week(DUMMY_ID));
 
+        remove_dummy_times();
         remove_dummy();
     });
 

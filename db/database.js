@@ -1,8 +1,10 @@
 var mysql = require('mysql');
 var input_utils = require('./../utils/validation_util.js');
+var time_utils = require('../utils/time_util.js');
 module.exports = {
     post_time: post_time,
-    get_time_today: get_time_today
+    get_time_today: get_time_today,
+    get_time_past_week: get_time_past_week
 };
 
 var con =  mysql.createConnection({
@@ -73,12 +75,45 @@ function get_time_today(userid, callback) {
 
 /**
  * Returns array of integers indicating the total time of each day for the last seven days
+ * @param {int} userid the id of the user to be queried
  */
 function get_time_past_week(userid) {
     // get JSON query objects every day for last 7 days.
     // convert JSON objects to total time per day
+    // index = 0 => MOST RECENT DATE
     var toReturn = [0,0,0,0,0,0,0];
-    
+    var allTimes = [0,0,0,0,0,0,0];
+    // push JSON object of every time for a given date 
+    for (var i=0; i<allTimes.length; i++) {
+        if (i == 0) {
+            q = `
+                SELECT timeofperiod
+                FROM times
+                WHERE userid=${userid} AND dateofperiod=CURDATE();
+            `;                  
+        } else {
+            q = `
+                SELECT timeofperiod
+                FROM times
+                WHERE userid=${userid} AND dateofperiod=DATE_ADD(CURDATE(), INTERVAL -${i} DAY);
+            `;
+        }
+        
+        var cb = function(err, res) {
+            if (err == null) {
+                // -1+i because length-1 gives max index
+                allTimes[i] = res;
+            }
+        }
+
+        execute_query(q, cb);        
+    }
+
+    // convert JSON object to pure seconds
+    toReturn = allTimes.map(time_utils.convert_JSON_to_seconds);
+    console.log(allTimes);
+
+    return toReturn;
 }
 
 
