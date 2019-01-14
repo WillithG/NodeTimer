@@ -40,3 +40,8 @@
 12 Jan 2019:
   - changed total_today_JSON_to_formatted to pass given tests
 
+14 Jan 2019:
+  - Added an sql file for creating the database tables, in case of another
+  system change without backup.
+
+
