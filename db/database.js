@@ -47,7 +47,7 @@ var execute_query = function(query, callback) {
       type :: string; the type of time to be pushed, either 'break' or 'study'
     output: bool; success of query
 */
-function post_time(id, time, type) {
+function post_time(id, time, type, cb) {
     // validate the input
     var id_valid = input_utils.validate_userid(id);
     var time_valid = input_utils.validate_time(time);
@@ -57,9 +57,8 @@ function post_time(id, time, type) {
     INSERT INTO times (userid, timeofperiod, dateofperiod, typeofperiod)
     VALUES (${id}, ${time}, CURDATE(), '${type}');
     `;
-    var succ = execute_query(query, `time ${id}, ${time} inserted`);
-    return succ;
-}
+    execute_query(query, cb);
+ }
 /*
     query the database for the total time studied today for the passed user
     inputs:

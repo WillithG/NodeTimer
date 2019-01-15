@@ -58,3 +58,9 @@
     the test data after every test.
   - Implemented a simple chart to display the time spent studying over the
   last 7 days. 
+  - fixed the width of the chart, so that it fills the window
+  - changed the submission protocol to be async 
+  - updated the submission protocol to update the chart as well as the time
+  today widget.
+  
+

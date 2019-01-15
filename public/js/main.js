@@ -71,7 +71,7 @@ function update_week_chart() {
                             yAxes : [{
                                 ticks: {
                                     suggestedMax : (Math.max(...hourArray) + 0.3),
-                                    suggestedMin : (Math.min(...hourArray)- 0.3)
+                                    suggestedMin : (Math.min(...hourArray) - 0.3)
                                 }
                             }]
                         }
@@ -123,7 +123,10 @@ function onReset() {
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 // if posted successfully then update the total time today widget.
+                // also update the chart
+                // perhaps make a separate update protocol function
                 get_update_total_time_today();
+                update_week_chart(); // maybe add a parameter to turn animation on or off.
             } else if (http.readyState == 4 && http.status == 400) {
                 alert(http.status);
             }

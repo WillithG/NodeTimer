@@ -16,9 +16,6 @@ app.get('/', function(req, res) {
     res.sendFile(public_dir + 'index.html');
 });
 
-app.get('/chart', function(req, res) {
-    res.sendFile(public_dir + 'chart.html');
-});
 
 /*
     Send total time studied for today for the passed user, upon request
@@ -53,11 +50,15 @@ app.post('/post_time', urlencodedParser, function(req, res) {
     
     var time_as_seconds = time_utils. convert_input_time_seconds(req.body.time);
     console.log('time as seconds: ' + time_as_seconds);
-    var succ = db.post_time(req.body.userid, time_as_seconds, req.body.type);
-    // (succ) ? res.sendStatus(200) : res.sendStatus(400);
-    res.sendStatus(200);
-    res.end();
-})
+    db.post_time(req.body.userid, time_as_seconds, req.body.type, function(err, result) {
+        if (err) {
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(200);
+        }
+        res.end();
+    });
+});
 
 
 app.get('/get_week_data', urlencodedParser, function(req, res) {
