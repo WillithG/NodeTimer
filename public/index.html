@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Study Stopwatch</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 <body>
     <h1 id="stopwatch">00 : 00 . 000</h1>
@@ -18,6 +19,11 @@
     <div id='totalToday'>
         <p >Total Time Studied Today</p> <p id='totalTodayTime'>0</p>
     </div>
+
+    <div style="position: relative; height:20vh; width:100vw">
+        <canvas id='wkChart'></canvas>
+    </div>
+
     <script src="js/stopwatch.js"></script>
     <script src="js/main.js"></script>
 </body>

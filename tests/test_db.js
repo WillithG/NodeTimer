@@ -135,10 +135,7 @@ describe('get_time_past_week tests', function() {
 
     it('lorge test', function(){});
 
-    //remove_dummy_times();
-    //remove_dummy();
-  
-    after(() => {
+    after(function() {
         con.end();
         db.close_connection();
     })

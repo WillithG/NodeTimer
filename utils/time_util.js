@@ -89,4 +89,5 @@ function total_today_JSON_to_formatted(JSON_res) {
             return `${num_hours} hours`;
         }   
     }
+
 }

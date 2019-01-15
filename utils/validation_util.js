@@ -15,7 +15,7 @@ function validate_time(time) {
 }
 
 function validate_userid(userid) {
-    return true;
+    return userid != undefined;
 }
 
 function validate_time_type(time_type) {

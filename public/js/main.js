@@ -12,9 +12,11 @@ var userid = 1;
 /*
     On document load, request the values for the main page stats:
         - Total time studied today
+        - update week chart
 */
 window.onload = function() {
     get_update_total_time_today();
+    update_week_chart();
  };
 
  /**
@@ -34,7 +36,51 @@ function get_update_total_time_today() {
             document.getElementById('totalTodayTime').textContent = newText;
         }
     }
-    http.send(params);
+    http.send();
+}
+
+// TODO DOCUMENT
+function update_week_chart() {
+    var http = new XMLHttpRequest();
+    var url = '/get_week_data';
+    var params = `userid=${userid}`;
+    http.open('GET', url+'?'+params, true);
+    //update chart on response
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            var hourArray = JSON.parse(http.responseText).reverse();
+            console.log(hourArray);
+
+            var ctx = document.getElementById('wkChart').getContext('2d');
+           // Charts.default.global.maintainAspectRatio = false;
+            var week_line_chart = new Chart(
+                ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['today', 'yesterday', '3 days ago', '4 days ago', '5 days ago', '6 days ago', '7 days ago'].reverse(),
+                        datasets: [{
+                            label: 'Hours Studied Last 7 days',
+                            borderColor: '#f41de2',
+                            backgroundColor: '#ffe6ff',
+                            data: hourArray
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        scales : {
+                            yAxes : [{
+                                ticks: {
+                                    suggestedMax : (Math.max(...hourArray) + 0.3),
+                                    suggestedMin : (Math.min(...hourArray)- 0.3)
+                                }
+                            }]
+                        }
+                    }   
+                }
+            );
+        }
+    };
+    http.send();
 }
 
 /*

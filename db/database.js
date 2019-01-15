@@ -8,6 +8,7 @@ module.exports = {
     close_connection: close_connection
 };
 
+// TODO, make this an open function
 var con =  mysql.createConnection({
     host: 'localhost',
     user: 'root',

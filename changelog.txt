@@ -56,4 +56,5 @@
   - changed the tests to be async friendly:
     added a before() and after() methods to close the connection and remove
     the test data after every test.
-
+  - Implemented a simple chart to display the time spent studying over the
+  last 7 days. 

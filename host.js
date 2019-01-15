@@ -25,7 +25,7 @@ app.get('/chart', function(req, res) {
 */
 app.get('/get_time_today', urlencodedParser, function(req, res) {
     // validate the userid (may be invalid, because user does not input this)
-    if (!input_utils.validate_userid(req.body.userid)) {
+    if (!input_utils.validate_userid(req.query.userid)) {
         res.sendStatus(400);
     }
     function callback(err, result) {
@@ -39,7 +39,7 @@ app.get('/get_time_today', urlencodedParser, function(req, res) {
             res.end();
         }
     }
-    db.get_time_today(req.body.userid, callback);
+    db.get_time_today(req.query.userid, callback);
 });
 
 /*
@@ -59,6 +59,20 @@ app.post('/post_time', urlencodedParser, function(req, res) {
     res.end();
 })
 
+
+app.get('/get_week_data', urlencodedParser, function(req, res) {
+    if (!input_utils.validate_userid(req.query.userid)) {
+        res.sendStatus(400);
+        return;
+    }
+    db.get_time_past_week(req.query.userid, function(seconds_past_week) {
+        var hours_past_week = seconds_past_week.map(function(sec){
+            return Math.round((sec / 3600) * 100) / 100;
+        });
+        res.send(hours_past_week);
+        res.end();
+        });
+    });
 
 // start the server listening
 var server = app.listen(PORT, function() {
