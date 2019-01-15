@@ -11,7 +11,8 @@ var con =  mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'studystopwatch'
+    database: 'studystopwatch',
+    multipleStatements: true
 });
 
 /* Private: wrapper function for executing an SQL query;
@@ -65,7 +66,6 @@ function get_time_today(userid, callback) {
     FROM times
     WHERE dateofperiod=CURDATE();
     `
-    var result = 'yeet';
     con.query(query, function(err, res) {
         if (err) {callback(err, null);}
         else {callback(null, res);} 
@@ -74,46 +74,34 @@ function get_time_today(userid, callback) {
 
 
 /**
- * Returns array of integers indicating the total time of each day for the last seven days
+ * Returns array of integers indicating the total time of each day for the last seven days. First element is the most recent date
  * @param {int} userid the id of the user to be queried
  */
-function get_time_past_week(userid) {
+function get_time_past_week(userid, cb) {
     // get JSON query objects every day for last 7 days.
     // convert JSON objects to total time per day
     // index = 0 => MOST RECENT DATE
     var toReturn = [0,0,0,0,0,0,0];
-    var allTimes = [0,0,0,0,0,0,0];
     // push JSON object of every time for a given date 
-    for (var i=0; i<allTimes.length; i++) {
-        if (i == 0) {
-            q = `
-                SELECT timeofperiod
-                FROM times
-                WHERE userid=${userid} AND dateofperiod=CURDATE();
-            `;                  
-        } else {
-            q = `
-                SELECT timeofperiod
-                FROM times
-                WHERE userid=${userid} AND dateofperiod=DATE_ADD(CURDATE(), INTERVAL -${i} DAY);
-            `;
-        }
-        
-        var cb = function(err, res) {
-            if (err == null) {
-                // -1+i because length-1 gives max index
-                allTimes[i] = res;
-            }
-        }
-
-        execute_query(q, cb);        
+    var allTimeQueries = '';
+    for (var i=0; i<toReturn.length; i++) {
+        allTimeQueries += `
+            SELECT timeofperiod
+            FROM times
+            WHERE userid=${userid} AND dateofperiod=DATE_ADD(CURDATE(), INTERVAL -${i} DAY);
+        `;
     }
-
-    // convert JSON object to pure seconds
-    toReturn = allTimes.map(time_utils.convert_JSON_to_seconds);
-    console.log(allTimes);
-
-    return toReturn;
+    var callb = function(err, res) {
+        if (err == null) {
+            // convert JSON object to pure seconds
+            toReturn = res.map(time_utils.convert_JSON_to_seconds);
+            cb(toReturn);
+        } else {
+            console.log('cb ' + err);
+        }
+    }
+    execute_query(allTimeQueries, callb);        
+    
 }
 
 

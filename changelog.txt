@@ -50,3 +50,6 @@
   the last 7 days.
   - wrote body code for get_time_past_week
 
+15 Jan 2019:
+  - cleaned up get_time_past_week to make it async friendly. 
+  - TODO clean up tests to be async friendly.
