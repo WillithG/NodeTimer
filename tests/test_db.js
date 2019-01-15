@@ -8,7 +8,8 @@ var con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'studystopwatch'
+    database: 'studystopwatch',
+    multipleStatements: true
 });
 
 // helper function for setting up dummy user
@@ -52,29 +53,16 @@ function remove_dummy() {
     });
 }
 
-function remove_dummy_times(done) {
+function remove_dummy_times() {
     const REMOVE_DUMMY_TIMES = `
         DELETE FROM times
         WHERE userid=${DUMMY_ID};
     `;
     con.query(REMOVE_DUMMY_TIMES, function(err, result) {
         if (err) {console.log('REMOVE_DUMMY_TIMES' + err);}
-        if (typeof done == 'function') {done()}
     });
 }
 
-function insert_time_dummy(time, date){
-    if (!date) {
-        date = 'CURDATE()';
-    }
-    insert_q = `
-        INSERT INTO times(userid, timeofperiod, dateofperiod, typeofperiod)
-        VALUES (${DUMMY_ID}, ${time}, ${date}, 'study');
-    `;
-    con.query(insert_q, function(err, res) {
-        if (err) {console.log('insert_time err: ' + err);}
-    });
-}
 
 /**
  * Returns true if both of passed arrays have the same values. Assumes passed vales are not objects
@@ -97,6 +85,14 @@ function equal_arrays(a1, a2) {
 // TODO TEST STUCK HERE 
 // TESTS FAILING
 describe('get_time_past_week tests', function() {
+    beforeEach(function () {
+
+    });
+
+    afterEach(function() {
+        remove_dummy_times();
+    });
+
     /*
     it('zero tests', function(done) {
         var expected = [0,0,0,0,0,0,0];
@@ -115,32 +111,36 @@ describe('get_time_past_week tests', function() {
     */
     it('multiple normal test', function(done){
         // push more times
-        /*
+        var insert_times_q = '';
         for (var i=0; i<7; i++) {
-            if (i == 0) {
-                insert_time_dummy(7, 'CURDATE()');
+            insert_times_q += `INSERT INTO times(userid, timeofperiod, dateofperiod, typeofperiod) VALUES (${DUMMY_ID}, ${i+1}, DATE_ADD(CURDATE(), INTERVAL -${i} DAY), 'study');`;
+        }
+        
+        con.query(insert_times_q, function(err, res) {
+            if (err) {
+                console.log('multiple normal test: ' + err);
+                done(
+                    new Error('insert failed')
+                );
             } else {
-                insert_time_dummy((7-i), `DATE_ADD(CURDATE(), INTERVAL -${i} DAY)`);
+                var expected2 = [1,2,3,4,5,6,7];
+                var cb = function(res) {
+                    assert.equal(equal_arrays(expected2, res), true); 
+                    done();
+                };
+                db.get_time_past_week(DUMMY_ID, cb);
             }
-        }
-        */
-
-        var expected2 = [7,6,5,4,3,2,1];
-        var test2; 
-        var cb = function(res) {
-            console.log(res);
-            test2 = res;
-            assert.equal(equal_arrays(expected2, test2), true); 
-            //remove_dummy_times(done);
-            done();
-        }
-        db.get_time_past_week(DUMMY_ID, cb);
-
+        });
     });
 
     it('lorge test', function(){});
 
     //remove_dummy_times();
     //remove_dummy();
+  
+    after(() => {
+        con.end();
+        db.close_connection();
+    })
 });
 

@@ -4,7 +4,8 @@ var time_utils = require('../utils/time_util.js');
 module.exports = {
     post_time: post_time,
     get_time_today: get_time_today,
-    get_time_past_week: get_time_past_week
+    get_time_past_week: get_time_past_week,
+    close_connection: close_connection
 };
 
 var con =  mysql.createConnection({
@@ -14,6 +15,10 @@ var con =  mysql.createConnection({
     database: 'studystopwatch',
     multipleStatements: true
 });
+
+function close_connection() {
+    con.end();
+}
 
 /* Private: wrapper function for executing an SQL query;
     Throws error if the query is not sucessful.
@@ -97,11 +102,10 @@ function get_time_past_week(userid, cb) {
             toReturn = res.map(time_utils.convert_JSON_to_seconds);
             cb(toReturn);
         } else {
-            console.log('cb ' + err);
+            console.log('callb ' + err);
         }
-    }
-    execute_query(allTimeQueries, callb);        
-    
+    };
+    execute_query(allTimeQueries, callb);
 }
 
 
