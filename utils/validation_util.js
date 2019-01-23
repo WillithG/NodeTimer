@@ -1,8 +1,7 @@
 module.exports = {
     validate_time : validate_time,
     validate_userid : validate_userid,
-    validate_time_type : validate_time_type,
-    validate_time : validate_time
+    validate_time_type : validate_time_type
 }
 
 /*
@@ -11,6 +10,9 @@ module.exports = {
 
 // TODO DOCUMENT, AND UPDATE THESE VALIDATION FUNCTIONS:
 function validate_time(time) {
+    if (time == '00 : 00 . 000') {
+      return false;
+    }
     return true;
 }
 
@@ -20,10 +22,5 @@ function validate_userid(userid) {
 
 function validate_time_type(time_type) {
     return time_type == 'study' || time_type == 'break';
-}
-
-function validate_time(time) {
-    // TODO complete
-    return true;
 }
 

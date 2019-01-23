@@ -63,4 +63,7 @@
   - updated the submission protocol to update the chart as well as the time
   today widget.
   
-
+22 Jan 2019:
+  - QOL: 
+    Make 00 : 00 . 000 unsubmittable
+    Changed the time studied past week graph never go below 0.

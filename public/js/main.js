@@ -71,7 +71,7 @@ function update_week_chart() {
                             yAxes : [{
                                 ticks: {
                                     suggestedMax : (Math.max(...hourArray) + 0.3),
-                                    suggestedMin : (Math.min(...hourArray) - 0.3)
+                                    suggestedMin : Math.max(0, (Math.min(...hourArray) - 0.3))
                                 }
                             }]
                         }
@@ -128,7 +128,8 @@ function onReset() {
                 get_update_total_time_today();
                 update_week_chart(); // maybe add a parameter to turn animation on or off.
             } else if (http.readyState == 4 && http.status == 400) {
-                alert(http.status);
+                //alert(http.status);
+                console.log(http.status);
             }
         }
         http.send(params);
@@ -143,11 +144,11 @@ resetBtn.addEventListener('click', onReset);
 
 // bind the spacebar to start and stop the timer
 document.addEventListener('keydown', function(e) {
-    if (e.keyCode == 32) { 
-        // space
+    if (e.keyCode == 81) { 
+        // q
         startStop();
-    } else if (e.keyCode == 13) {
-        // enter
+    } else if (e.keyCode == 13 || e.keyCode == 87) {
+        // enter or w
         onReset();
     } else if (e.keyCode == 83) {
         // s key

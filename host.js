@@ -46,18 +46,20 @@ app.post('/post_time', urlencodedParser, function(req, res) {
     console.log(req.body.time);
     if (!input_utils.validate_time(req.body.time) || !input_utils.validate_userid(req.body.userid) || !input_utils.validate_time_type(req.body.type)) {
         res.sendStatus(400); // bad request
-    }
-    
-    var time_as_seconds = time_utils. convert_input_time_seconds(req.body.time);
-    console.log('time as seconds: ' + time_as_seconds);
-    db.post_time(req.body.userid, time_as_seconds, req.body.type, function(err, result) {
-        if (err) {
-            res.sendStatus(400);
-        } else {
-            res.sendStatus(200);
-        }
         res.end();
-    });
+    } else {
+        console.log(input_utils.validate_time(req.body.time));
+        var time_as_seconds = time_utils. convert_input_time_seconds(req.body.time);
+        console.log('time as seconds: ' + time_as_seconds);
+        db.post_time(req.body.userid, time_as_seconds, req.body.type, function(err, result) {
+            if (err) {
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(200);
+            }
+            res.end();
+        });
+    }
 });
 
 
